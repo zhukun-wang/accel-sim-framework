@@ -116,6 +116,8 @@ for bench in benchmarks:
         exec_path = common.file_option_test(os.path.join(edir, exe), "", this_directory)
         sh_contents = "set -e\n"
 
+        sh_contents += '\nexport TRACE_FILE_COMPRESS=0\n'
+
         if options.terminate_upon_limit:
             sh_contents += "export TERMINATE_UPON_LIMIT=1; "
 

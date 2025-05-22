@@ -164,6 +164,8 @@ bool should_trace_kernel(uint64_t kernel_id, const std::string& kernel_name) {
     // Check range for kernel ID
     if (range.end == 0) {
         if (kernel_id >= range.start) {
+	    if (range.kernel_name_regexes.empty()) return true;
+	     
             // Match any of the regexes for this range
             for (const auto& regex : range.kernel_name_regexes) {
                 if (std::regex_match(kernel_name, regex)) {
@@ -172,7 +174,9 @@ bool should_trace_kernel(uint64_t kernel_id, const std::string& kernel_name) {
             }
         }
     } else if (kernel_id >= range.start && kernel_id <= range.end) {
-        // Match any of the regexes for this range
+        if (range.kernel_name_regexes.empty()) return true;
+
+	// Match any of the regexes for this range
         for (const auto& regex : range.kernel_name_regexes) {
             if (std::regex_match(kernel_name, regex)) {
                 return true;
